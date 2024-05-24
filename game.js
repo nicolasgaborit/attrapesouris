@@ -265,7 +265,7 @@ function generateMaze(rows, cols) {
 }
 
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+    for (let i = array.length - 1); i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
@@ -341,3 +341,20 @@ controlContainer.appendChild(controlUp);
 controlContainer.appendChild(controlRow);
 
 document.body.appendChild(controlContainer);
+
+// Plein écran
+const fullscreenButton = document.createElement('button');
+fullscreenButton.innerText = 'Plein écran';
+fullscreenButton.className = 'control-button';
+fullscreenButton.addEventListener('click', toggleFullScreen);
+document.body.appendChild(fullscreenButton);
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}

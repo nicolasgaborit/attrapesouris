@@ -2,19 +2,19 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const tileSize = 20;
-const rows = Math.floor((window.innerHeight - 100) / tileSize); // Ajuster la hauteur du canvas
+const rows = Math.floor((window.innerHeight - 150) / tileSize); // Adjusting height to avoid scrolling
 const cols = Math.floor(window.innerWidth / tileSize);
 canvas.width = cols * tileSize;
 canvas.height = rows * tileSize;
 const directions = [
-    { dx: -1, dy: 0 }, // gauche
-    { dx: 1, dy: 0 },  // droite
-    { dx: 0, dy: -1 }, // haut
-    { dx: 0, dy: 1 }   // bas
+    { dx: -1, dy: 0 }, // left
+    { dx: 1, dy: 0 },  // right
+    { dx: 0, dy: -1 }, // up
+    { dx: 0, dy: 1 }   // down
 ];
 
 let score = 0;
-let timeRemaining = 120; // 2 minutes en secondes
+let timeRemaining = 120; // 2 minutes in seconds
 let gameInterval;
 let countdownInterval;
 let nextDirection = null;
@@ -23,7 +23,7 @@ let nextDirection = null;
 const catImg = new Image();
 catImg.src = 'cat.png';
 const mouseImg = new Image();
-mouseImg.src = 'mouse.png';
+catImg.src = 'mouse.png';
 
 const cat = {
     x: tileSize * 1,
@@ -115,7 +115,7 @@ function moveMice() {
             mouse.y = newY;
             mouse.steps--;
         } else {
-            mouse.steps = 0; // réinitialiser les étapes si on ne peut pas se déplacer vers une nouvelle position
+            mouse.steps = 0; // reset steps if can't move to a new position
         }
     });
 }
@@ -201,36 +201,18 @@ function checkCollision() {
 function changeDirection(event) {
     const { keyCode } = event;
     switch (keyCode) {
-        case 37: // flèche gauche
+        case 37: // left arrow
             nextDirection = { dx: -1, dy: 0 };
             break;
-        case 38: // flèche haut
+        case 38: // up arrow
             nextDirection = { dx: 0, dy: -1 };
             break;
-        case 39: // flèche droite
+        case 39: // right arrow
             nextDirection = { dx: 1, dy: 0 };
             break;
-        case 40: // flèche bas
+        case 40: // down arrow
             nextDirection = { dx: 0, dy: 1 };
             break;
-    }
-}
-
-function handleTouch(event) {
-    const touch = event.touches[0];
-    const touchX = touch.clientX;
-    const touchY = touch.clientY;
-
-    const catXCenter = cat.x + tileSize / 2;
-    const catYCenter = cat.y + tileSize / 2;
-
-    const dx = touchX - catXCenter;
-    const dy = touchY - catYCenter;
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-        nextDirection = dx > 0 ? { dx: 1, dy: 0 } : { dx: -1, dy: 0 };
-    } else {
-        nextDirection = dy > 0 ? { dx: 0, dy: 1 } : { dx: 0, dy: -1 };
     }
 }
 
@@ -238,10 +220,7 @@ function createControlButton(id, text, onClick) {
     const button = document.createElement('button');
     button.id = id;
     button.innerText = text;
-    button.style.width = '60px';
-    button.style.height = '60px';
-    button.style.fontSize = '24px';
-    button.style.margin = '10px';
+    button.className = 'control-button';
     button.addEventListener('click', onClick);
     return button;
 }
@@ -272,7 +251,7 @@ function generateMaze(rows, cols) {
         }
     }
 
-    // Ajouter des murs autour des bords
+    // Add walls around the edges
     for (let i = 0; i < rows; i++) {
         maze[i][0] = 1;
         maze[i][cols - 1] = 1;
@@ -306,9 +285,9 @@ function startCountdown() {
 function endGame() {
     clearInterval(gameInterval);
     clearInterval(countdownInterval);
-    alert('Fin du jeu ! Votre score : ' + score);
+    alert('Game Over! Your score: ' + score);
     const restartButton = document.createElement('button');
-    restartButton.textContent = 'Recommencer';
+    restartButton.textContent = 'Restart Game';
     restartButton.onclick = restartGame;
     document.body.appendChild(restartButton);
 }

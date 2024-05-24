@@ -2,10 +2,11 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const tileSize = 20;
-const rows = Math.floor((window.innerHeight - 200) / tileSize); // Réduire la hauteur du canvas
+const rows = Math.floor((window.innerHeight - 200) / tileSize); // Ajuster la hauteur du canvas
 const cols = Math.floor(window.innerWidth / tileSize);
 canvas.width = cols * tileSize;
 canvas.height = rows * tileSize;
+
 const directions = [
     { dx: -1, dy: 0 }, // gauche
     { dx: 1, dy: 0 },  // droite
@@ -115,7 +116,7 @@ function moveMice() {
             mouse.y = newY;
             mouse.steps--;
         } else {
-            mouse.steps = 0; // réinitialiser les étapes si on ne peut pas se déplacer vers une nouvelle position
+            mouse.steps = 0;
         }
     });
 }

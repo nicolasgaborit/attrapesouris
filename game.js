@@ -2,19 +2,19 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const tileSize = 20;
-const rows = Math.floor((window.innerHeight - 150) / tileSize); // Adjusting height to avoid scrolling
+const rows = Math.floor((window.innerHeight - 200) / tileSize); // Réduire la hauteur du canvas
 const cols = Math.floor(window.innerWidth / tileSize);
 canvas.width = cols * tileSize;
 canvas.height = rows * tileSize;
 const directions = [
-    { dx: -1, dy: 0 }, // left
-    { dx: 1, dy: 0 },  // right
-    { dx: 0, dy: -1 }, // up
-    { dx: 0, dy: 1 }   // down
+    { dx: -1, dy: 0 }, // gauche
+    { dx: 1, dy: 0 },  // droite
+    { dx: 0, dy: -1 }, // haut
+    { dx: 0, dy: 1 }   // bas
 ];
 
 let score = 0;
-let timeRemaining = 120; // 2 minutes in seconds
+let timeRemaining = 120; // 2 minutes en secondes
 let gameInterval;
 let countdownInterval;
 let nextDirection = null;
@@ -23,7 +23,7 @@ let nextDirection = null;
 const catImg = new Image();
 catImg.src = 'cat.png';
 const mouseImg = new Image();
-catImg.src = 'mouse.png';
+mouseImg.src = 'mouse.png';
 
 const cat = {
     x: tileSize * 1,
@@ -115,7 +115,7 @@ function moveMice() {
             mouse.y = newY;
             mouse.steps--;
         } else {
-            mouse.steps = 0; // reset steps if can't move to a new position
+            mouse.steps = 0; // réinitialiser les étapes si on ne peut pas se déplacer vers une nouvelle position
         }
     });
 }
@@ -201,16 +201,16 @@ function checkCollision() {
 function changeDirection(event) {
     const { keyCode } = event;
     switch (keyCode) {
-        case 37: // left arrow
+        case 37: // flèche gauche
             nextDirection = { dx: -1, dy: 0 };
             break;
-        case 38: // up arrow
+        case 38: // flèche haut
             nextDirection = { dx: 0, dy: -1 };
             break;
-        case 39: // right arrow
+        case 39: // flèche droite
             nextDirection = { dx: 1, dy: 0 };
             break;
-        case 40: // down arrow
+        case 40: // flèche bas
             nextDirection = { dx: 0, dy: 1 };
             break;
     }
@@ -251,7 +251,7 @@ function generateMaze(rows, cols) {
         }
     }
 
-    // Add walls around the edges
+    // Ajouter des murs autour des bords
     for (let i = 0; i < rows; i++) {
         maze[i][0] = 1;
         maze[i][cols - 1] = 1;
@@ -285,9 +285,9 @@ function startCountdown() {
 function endGame() {
     clearInterval(gameInterval);
     clearInterval(countdownInterval);
-    alert('Game Over! Your score: ' + score);
+    alert('Fin du jeu ! Votre score : ' + score);
     const restartButton = document.createElement('button');
-    restartButton.textContent = 'Restart Game';
+    restartButton.textContent = 'Recommencer';
     restartButton.onclick = restartGame;
     document.body.appendChild(restartButton);
 }
@@ -317,15 +317,12 @@ catImg.onload = function() {
     };
 };
 
-// Create control buttons
+// Créer les boutons de contrôle
 const controlContainer = document.createElement('div');
-controlContainer.style.position = 'fixed';
-controlContainer.style.bottom = '20px';
-controlContainer.style.left = '50%';
-controlContainer.style.transform = 'translateX(-50%)';
 controlContainer.style.display = 'flex';
 controlContainer.style.flexDirection = 'column';
 controlContainer.style.alignItems = 'center';
+controlContainer.style.marginTop = '20px';
 
 const controlUp = createControlButton('control-up', '↑', () => { nextDirection = { dx: 0, dy: -1 }; });
 const controlLeft = createControlButton('control-left', '←', () => { nextDirection = { dx: -1, dy: 0 }; });

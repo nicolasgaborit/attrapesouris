@@ -2,7 +2,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const tileSize = 20;
-const rows = Math.floor(window.innerHeight / tileSize);
+const rows = Math.floor((window.innerHeight - 100) / tileSize); // Ajuster la hauteur du canvas
 const cols = Math.floor(window.innerWidth / tileSize);
 canvas.width = cols * tileSize;
 canvas.height = rows * tileSize;
@@ -234,8 +234,19 @@ function handleTouch(event) {
     }
 }
 
+function createControlButton(id, text, onClick) {
+    const button = document.createElement('button');
+    button.id = id;
+    button.innerText = text;
+    button.style.width = '60px';
+    button.style.height = '60px';
+    button.style.fontSize = '24px';
+    button.style.margin = '10px';
+    button.addEventListener('click', onClick);
+    return button;
+}
+
 document.addEventListener('keydown', changeDirection);
-canvas.addEventListener('touchstart', handleTouch);
 
 function generateMaze(rows, cols) {
     const maze = Array.from({ length: rows }, () => Array(cols).fill(1));
@@ -326,3 +337,31 @@ catImg.onload = function() {
         startGame();
     };
 };
+
+// Create control buttons
+const controlContainer = document.createElement('div');
+controlContainer.style.position = 'fixed';
+controlContainer.style.bottom = '20px';
+controlContainer.style.left = '50%';
+controlContainer.style.transform = 'translateX(-50%)';
+controlContainer.style.display = 'flex';
+controlContainer.style.flexDirection = 'column';
+controlContainer.style.alignItems = 'center';
+
+const controlUp = createControlButton('control-up', '↑', () => { nextDirection = { dx: 0, dy: -1 }; });
+const controlLeft = createControlButton('control-left', '←', () => { nextDirection = { dx: -1, dy: 0 }; });
+const controlDown = createControlButton('control-down', '↓', () => { nextDirection = { dx: 0, dy: 1 }; });
+const controlRight = createControlButton('control-right', '→', () => { nextDirection = { dx: 1, dy: 0 }; });
+
+const controlRow = document.createElement('div');
+controlRow.style.display = 'flex';
+controlRow.style.justifyContent = 'center';
+
+controlRow.appendChild(controlLeft);
+controlRow.appendChild(controlDown);
+controlRow.appendChild(controlRight);
+
+controlContainer.appendChild(controlUp);
+controlContainer.appendChild(controlRow);
+
+document.body.appendChild(controlContainer);

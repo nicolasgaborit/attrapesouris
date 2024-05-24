@@ -7,14 +7,14 @@ const cols = Math.floor(window.innerWidth / tileSize);
 canvas.width = cols * tileSize;
 canvas.height = rows * tileSize;
 const directions = [
-    { dx: -1, dy: 0 }, // left
-    { dx: 1, dy: 0 },  // right
-    { dx: 0, dy: -1 }, // up
-    { dx: 0, dy: 1 }   // down
+    { dx: -1, dy: 0 }, // gauche
+    { dx: 1, dy: 0 },  // droite
+    { dx: 0, dy: -1 }, // haut
+    { dx: 0, dy: 1 }   // bas
 ];
 
 let score = 0;
-let timeRemaining = 120; // 2 minutes in seconds
+let timeRemaining = 120; // 2 minutes en secondes
 let gameInterval;
 let countdownInterval;
 let nextDirection = null;
@@ -115,7 +115,7 @@ function moveMice() {
             mouse.y = newY;
             mouse.steps--;
         } else {
-            mouse.steps = 0; // reset steps if can't move to a new position
+            mouse.steps = 0; // réinitialiser les étapes si on ne peut pas se déplacer vers une nouvelle position
         }
     });
 }
@@ -201,16 +201,16 @@ function checkCollision() {
 function changeDirection(event) {
     const { keyCode } = event;
     switch (keyCode) {
-        case 37: // left arrow
+        case 37: // flèche gauche
             nextDirection = { dx: -1, dy: 0 };
             break;
-        case 38: // up arrow
+        case 38: // flèche haut
             nextDirection = { dx: 0, dy: -1 };
             break;
-        case 39: // right arrow
+        case 39: // flèche droite
             nextDirection = { dx: 1, dy: 0 };
             break;
-        case 40: // down arrow
+        case 40: // flèche bas
             nextDirection = { dx: 0, dy: 1 };
             break;
     }
@@ -261,7 +261,7 @@ function generateMaze(rows, cols) {
         }
     }
 
-    // Add walls around the edges
+    // Ajouter des murs autour des bords
     for (let i = 0; i < rows; i++) {
         maze[i][0] = 1;
         maze[i][cols - 1] = 1;
@@ -295,9 +295,9 @@ function startCountdown() {
 function endGame() {
     clearInterval(gameInterval);
     clearInterval(countdownInterval);
-    alert('Game Over! Your score: ' + score);
+    alert('Fin du jeu ! Votre score : ' + score);
     const restartButton = document.createElement('button');
-    restartButton.textContent = 'Restart Game';
+    restartButton.textContent = 'Recommencer';
     restartButton.onclick = restartGame;
     document.body.appendChild(restartButton);
 }
